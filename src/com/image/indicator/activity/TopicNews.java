@@ -3,16 +3,18 @@ package com.image.indicator.activity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.image.indicator.R;
-import com.image.indicator.layout.SlideImageLayout;
-import com.image.indicator.parser.NewsXmlParser;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.image.indicator.R;
+import com.image.indicator.layout.SlideImageLayout;
+import com.image.indicator.parser.NewsXmlParser;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.wizard.adapter.LazyLoadingAdapter;
+import com.wizard.util.HttpUtil;
 
 /**
  * 头条新闻Activity
@@ -54,7 +63,11 @@ public class TopicNews extends Activity{
 	private SlideImageLayout mSlideLayout = null;
 	// 数据解析类
 	private NewsXmlParser mParser = null; 
+	//列表输出
+	private ArrayList<HashMap<String, Object>> listItem ;
 	
+	private ProgressDialog pDialog;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,7 +104,7 @@ public class TopicNews extends Activity{
 		mSlideTitle = (TextView) mMainView.findViewById(R.id.tvSlideTitle);
 		mSlideTitle.setText(mParser.getSlideTitles()[0]);
 		
-		ListView list = (ListView) findViewById(R.id.ListView01);
+		ListView list = (ListView) mMainView.findViewById(R.id.ListView01);
 		
 		loadListView(list);
 		
@@ -103,50 +116,47 @@ public class TopicNews extends Activity{
 	}
 	
 	private void loadListView(ListView list){
-		 ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();    
-	        for(int i=0;i<5;i++)    
-	        {   
-		        if(i==0){   
-		        HashMap<String, Object> map = new HashMap<String, Object>();    
-		                map.put("ItemImage", R.drawable.checked);//图像资源的ID    
-		                map.put("ItemTitle", "个人信息");    
-		                map.put("LastImage", R.drawable.lastimage);    
-		                listItem.add(map);   
-		        }else if(i==1){   
-		        HashMap<String, Object> map = new HashMap<String, Object>();    
-		                map.put("ItemImage", R.drawable.c);//图像资源的ID    
-		                map.put("ItemTitle", "修改密码");    
-		                map.put("LastImage", R.drawable.lastimage);    
-		                listItem.add(map);   
-		        }else if(i==2){   
-		        HashMap<String, Object> map = new HashMap<String, Object>();    
-		                map.put("ItemImage", R.drawable.d);//图像资源的ID    
-		                map.put("ItemTitle", "网络设置");    
-		                map.put("LastImage", R.drawable.lastimage);    
-		                listItem.add(map);   
-		        }else if(i==3){   
-		        HashMap<String, Object> map = new HashMap<String, Object>();    
-		                map.put("ItemImage", R.drawable.d);//图像资源的ID    
-		                map.put("ItemTitle", "打印设置");    
-		                map.put("LastImage", R.drawable.lastimage);    
-		                listItem.add(map);   
-		        }else{   
-		        HashMap<String, Object> map = new HashMap<String, Object>();    
-		                map.put("ItemImage", R.drawable.e);//图像资源的ID    
-		                map.put("ItemTitle", "返回");    
-		                map.put("LastImage", R.drawable.lastimage);    
-		                listItem.add(map);   
-		        }  
-	        }
-	        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,// 数据源     
-                R.layout.list_items,//ListItem的XML实现    
-                //动态数组与ImageItem对应的子项            
-                new String[] {"ItemImage","ItemTitle", "LastImage"},     
-                //ImageItem的XML文件里面的一个ImageView,两个TextView ID    
-                new int[] {R.id.ItemImage,R.id.ItemTitle,R.id.last}    
-            );    
+//			String urlString = "http://10.100.4.99/api/fangtanApi.do?action=topicNews";
+//			listItem = new ArrayList<HashMap<String, Object>>();    
+//			HttpUtil.get(urlString, new JsonHttpResponseHandler() {
+//				public void onSuccess(JSONArray dataJson){
+//					HashMap<String, Object> map = new HashMap<String, Object>();    
+//					for(int i=0;i<dataJson.length();i++){
+//						try {
+//								JSONObject fangtan = (JSONObject) dataJson.get(i);
+//								String fangtanTitle = (String) fangtan.get("fangtanTitle");
+//							 	map.put("ItemImage", R.drawable.c);//图像资源的ID    
+//								map.put("ItemTitle", fangtanTitle);    
+//				                map.put("LastImage", R.drawable.lastimage);   
+//							} catch (JSONException e) {
+//								Log.e("test", " onSuccess JSONException" +e.getMessage());
+//							}
+//					}
+//					listItem.add(map);
+//				};
+//				public void onFailure(Throwable arg0) {
+//	                Log.e("test", " onFailure" + arg0.toString());
+//	            };
+//	            public void onFinish() {
+//	                Log.i("test", "onFinish");
+//	            };
+//			});
+			LazyLoadingAdapter lazyLoading = new LazyLoadingAdapter(this,listItem,// 数据源     
+	                R.layout.list_items,//ListItem的XML实现    
+	                //动态数组与ImageItem对应的子项            
+	                new String[] {"ItemImage","ItemTitle", "LastImage"},     
+	                //ImageItem的XML文件里面的一个ImageView,两个TextView ID    
+	                new int[] {R.id.ItemImage,R.id.ItemTitle,R.id.last}
+			);
+//	        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,// 数据源     
+//                R.layout.list_items,//ListItem的XML实现    
+//                //动态数组与ImageItem对应的子项            
+//                new String[] {"ItemImage","ItemTitle", "LastImage"},     
+//                //ImageItem的XML文件里面的一个ImageView,两个TextView ID    
+//                new int[] {R.id.ItemImage,R.id.ItemTitle,R.id.last}    
+//            );    
             //添加并且显示    
-            list.setAdapter(listItemAdapter); 
+            list.setAdapter(lazyLoading); 
 	}
 	
 	// 滑动图片数据适配器
