@@ -28,6 +28,7 @@ import com.image.indicator.layout.SlideImageLayout;
 import com.image.indicator.parser.NewsXmlParser;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.wizard.adapter.LazyLoadingAdapter;
+import com.wizard.adapter.SlideImageAdapter;
 import com.wizard.util.HttpUtil;
 
 /**
@@ -67,6 +68,10 @@ public class TopicNews extends Activity{
 	private ArrayList<HashMap<String, Object>> listItem ;
 	
 	private ProgressDialog pDialog;
+	
+	private SimpleAdapter listItemAdapter;
+	
+	private ListView list;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,109 +109,51 @@ public class TopicNews extends Activity{
 		mSlideTitle = (TextView) mMainView.findViewById(R.id.tvSlideTitle);
 		mSlideTitle.setText(mParser.getSlideTitles()[0]);
 		
-		ListView list = (ListView) mMainView.findViewById(R.id.ListView01);
-		
-		loadListView(list);
-		
+		list = (ListView) mMainView.findViewById(R.id.ListView01);
+		loadListView();
 		setContentView(mMainView);
 		
 		// 设置ViewPager
-        mViewPager.setAdapter(new SlideImageAdapter());  
+        mViewPager.setAdapter(new SlideImageAdapter(mImagePageViewList));  
         mViewPager.setOnPageChangeListener(new ImagePageChangeListener());
 	}
 	
-	private void loadListView(ListView list){
-//			String urlString = "http://10.100.4.99/api/fangtanApi.do?action=topicNews";
-//			listItem = new ArrayList<HashMap<String, Object>>();    
-//			HttpUtil.get(urlString, new JsonHttpResponseHandler() {
-//				public void onSuccess(JSONArray dataJson){
-//					HashMap<String, Object> map = new HashMap<String, Object>();    
-//					for(int i=0;i<dataJson.length();i++){
-//						try {
-//								JSONObject fangtan = (JSONObject) dataJson.get(i);
-//								String fangtanTitle = (String) fangtan.get("fangtanTitle");
-//							 	map.put("ItemImage", R.drawable.c);//图像资源的ID    
-//								map.put("ItemTitle", fangtanTitle);    
-//				                map.put("LastImage", R.drawable.lastimage);   
-//							} catch (JSONException e) {
-//								Log.e("test", " onSuccess JSONException" +e.getMessage());
-//							}
-//					}
-//					listItem.add(map);
-//				};
-//				public void onFailure(Throwable arg0) {
-//	                Log.e("test", " onFailure" + arg0.toString());
-//	            };
-//	            public void onFinish() {
-//	                Log.i("test", "onFinish");
-//	            };
-//			});
-			LazyLoadingAdapter lazyLoading = new LazyLoadingAdapter(this,listItem,// 数据源     
-	                R.layout.list_items,//ListItem的XML实现    
-	                //动态数组与ImageItem对应的子项            
-	                new String[] {"ItemImage","ItemTitle", "LastImage"},     
-	                //ImageItem的XML文件里面的一个ImageView,两个TextView ID    
-	                new int[] {R.id.ItemImage,R.id.ItemTitle,R.id.last}
-			);
-//	        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,// 数据源     
-//                R.layout.list_items,//ListItem的XML实现    
-//                //动态数组与ImageItem对应的子项            
-//                new String[] {"ItemImage","ItemTitle", "LastImage"},     
-//                //ImageItem的XML文件里面的一个ImageView,两个TextView ID    
-//                new int[] {R.id.ItemImage,R.id.ItemTitle,R.id.last}    
-//            );    
-            //添加并且显示    
-            list.setAdapter(lazyLoading); 
+	private void loadListView(){
+			String urlString = "http://10.100.4.99/api/fangtanApi.do?action=topicNews";
+			listItem = new ArrayList<HashMap<String, Object>>();    
+	        listItemAdapter = new SimpleAdapter(this,listItem,// 数据源     
+                R.layout.list_items,//ListItem的XML实现    
+                //动态数组与ImageItem对应的子项            
+                new String[] {"ItemImage","ItemTitle", "LastImage"},     
+                //ImageItem的XML文件里面的一个ImageView,两个TextView ID    
+                new int[] {R.id.ItemImage,R.id.ItemTitle,R.id.last}    
+            );    
+	         //添加并且显示    
+	        list.setAdapter(listItemAdapter); 
+	    	HttpUtil.get(urlString, new JsonHttpResponseHandler() {
+				public void onSuccess(JSONArray dataJson){
+					for(int i=0;i<dataJson.length();i++){
+						try {
+								HashMap<String, Object> map = new HashMap<String, Object>();    
+								JSONObject fangtan = (JSONObject) dataJson.get(i);
+								String fangtanTitle = (String) fangtan.get("fangtanTitle");
+							 	map.put("ItemImage", R.drawable.c);//图像资源的ID    
+								map.put("ItemTitle", fangtanTitle);    
+				                map.put("LastImage", R.drawable.lastimage);   
+				                listItem.add(map);
+							} catch (JSONException e) {
+								Log.e("test", " onSuccess JSONException" +e.getMessage());
+							}
+					}
+					listItemAdapter.notifyDataSetChanged();
+				};
+				public void onFailure(Throwable arg0) {
+	            };
+	            public void onFinish() {
+	            };
+			});
 	}
 	
-	// 滑动图片数据适配器
-    private class SlideImageAdapter extends PagerAdapter {  
-        @Override  
-        public int getCount() { 
-            return mImagePageViewList.size();  
-        }  
-  
-        @Override  
-        public boolean isViewFromObject(View view, Object object) {  
-            return view == object;  
-        }  
-  
-        @Override  
-        public int getItemPosition(Object object) {  
-            return super.getItemPosition(object);  
-        }  
-  
-        @Override  
-        public void destroyItem(View view, int arg1, Object arg2) {  
-            ((ViewPager) view).removeView(mImagePageViewList.get(arg1));  
-        }  
-  
-        @Override  
-        public Object instantiateItem(View view, int position) {  
-        	((ViewPager) view).addView(mImagePageViewList.get(position));
-            
-            return mImagePageViewList.get(position);  
-        }  
-  
-        @Override  
-        public void restoreState(Parcelable arg0, ClassLoader arg1) {  
-  
-        }  
-  
-        @Override  
-        public Parcelable saveState() {  
-            return null;  
-        }  
-  
-        @Override  
-        public void startUpdate(View arg0) {  
-        }  
-  
-        @Override  
-        public void finishUpdate(View arg0) {  
-        }  
-    }
-    
     // 滑动页面更改事件监听器
     private class ImagePageChangeListener implements OnPageChangeListener {
         @Override  
