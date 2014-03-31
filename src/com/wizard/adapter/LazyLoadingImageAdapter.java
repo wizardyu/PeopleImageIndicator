@@ -1,11 +1,14 @@
 package com.wizard.adapter;
 
-
 import java.util.List;
 import java.util.Map;
 
+import com.wizard.task.DownloadImgTask;
+import com.wizard.view.PorterDuffView;
+
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +17,23 @@ import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-public class LazyLoadingAdapter extends SimpleAdapter {
+public class LazyLoadingImageAdapter extends SimpleAdapter {
 
-        private int[] mTo;
+    private int[] mTo;
     private String[] mFrom;
     private ViewBinder mViewBinder;
-
+	public static final String[] STRING_ARR = {//
+	"http://developer.android.com/images/home/android-jellybean.png",//
+			"http://developer.android.com/images/home/design.png",//
+			"http://developer.android.com/images/home/google-play.png",//
+			"http://developer.android.com/images/home/google-io.png" };
     private List<? extends Map<String, ?>> mData;
 
     private int mResource;
     private int mDropDownResource;
     private LayoutInflater mInflater;
 
-        public LazyLoadingAdapter(Context context,List<? extends Map<String, ?>> data, int resource, String[] from,int[] to) {
+        public LazyLoadingImageAdapter(Context context,List<? extends Map<String, ?>> data, int resource, String[] from,int[] to) {
         super(context, data, resource, from, to);
         mData = data;
         mResource = mDropDownResource = resource;
@@ -40,7 +47,21 @@ public class LazyLoadingAdapter extends SimpleAdapter {
      * @see android.widget.Adapter#getView(int, View, ViewGroup)
      */
     public View getView(int position, View convertView, ViewGroup parent) {
-        return createViewFromResource(position, convertView, parent, mResource);
+    	View v;
+    	if(convertView instanceof  TextView){
+    		v = super.getView(position, convertView, parent);
+    		Log.e("test","TextView");
+    	}else if(convertView instanceof  PorterDuffView){
+    		v = super.getView(position, convertView, parent);
+    		Log.e("test","PorterDuffView");
+    	}else if(convertView instanceof  ImageView){
+    		v = super.getView(position, convertView, parent);
+    		Log.e("test","ImageView");
+    		//v = createViewFromResource(position, convertView, parent, mResource);
+    	}else{
+    		v = createViewFromResource(position, convertView, parent, mResource);
+    	}
+        return v;
     }
 
     private View createViewFromResource(int position, View convertView,ViewGroup parent, int resource) {
@@ -102,13 +123,22 @@ public class LazyLoadingAdapter extends SimpleAdapter {
                         }
                     } else if (v instanceof TextView) {
                         setViewText((TextView) v, text);
+                    }else if(data instanceof PorterDuffView){
+                    	PorterDuffView pdView = (PorterDuffView) v;  
+                        if (pdView.isLoading() == false) {  
+                            DownloadImgTask task = new DownloadImgTask(pdView);  
+                            task.execute(STRING_ARR[pdView.getId() % STRING_ARR.length]);  
+                            pdView.setPorterDuffMode(true);  
+                            pdView.setLoading(true);  
+                            pdView.setProgress(0);  
+                            pdView.invalidate();  
+                        } 
                     } else if (v instanceof ImageView) {
-
                         if (data instanceof Integer) {
                             setViewImage((ImageView) v, (Integer) data);                            
                         } else if(data instanceof Bitmap) {
                             setViewImage((ImageView) v, (Bitmap)data);
-                        }
+                        } 
                     } else {
                         throw new IllegalStateException(v.getClass().getName() + " is not a " +
                                 " view that can be bounds by this SimpleAdapter");

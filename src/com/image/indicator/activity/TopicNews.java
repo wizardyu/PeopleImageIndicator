@@ -10,8 +10,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
@@ -27,8 +25,9 @@ import com.image.indicator.R;
 import com.image.indicator.layout.SlideImageLayout;
 import com.image.indicator.parser.NewsXmlParser;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.wizard.adapter.LazyLoadingAdapter;
+import com.wizard.adapter.LazyLoadingImageAdapter;
 import com.wizard.adapter.SlideImageAdapter;
+import com.wizard.loader.AsyncImageLoader;
 import com.wizard.util.HttpUtil;
 
 /**
@@ -121,7 +120,7 @@ public class TopicNews extends Activity{
 	private void loadListView(){
 			String urlString = "http://10.100.4.99/api/fangtanApi.do?action=topicNews";
 			listItem = new ArrayList<HashMap<String, Object>>();    
-	        listItemAdapter = new SimpleAdapter(this,listItem,// 数据源     
+	        listItemAdapter = new LazyLoadingImageAdapter(this,listItem,// 数据源     
                 R.layout.list_items,//ListItem的XML实现    
                 //动态数组与ImageItem对应的子项            
                 new String[] {"ItemImage","ItemTitle", "LastImage"},     
@@ -137,9 +136,9 @@ public class TopicNews extends Activity{
 								HashMap<String, Object> map = new HashMap<String, Object>();    
 								JSONObject fangtan = (JSONObject) dataJson.get(i);
 								String fangtanTitle = (String) fangtan.get("fangtanTitle");
-							 	map.put("ItemImage", R.drawable.c);//图像资源的ID    
+							 	map.put("ItemImage", R.drawable.loading);//图像资源的ID    
 								map.put("ItemTitle", fangtanTitle);    
-				                map.put("LastImage", R.drawable.lastimage);   
+				                map.put("LastImage", R.drawable.loading);   
 				                listItem.add(map);
 							} catch (JSONException e) {
 								Log.e("test", " onSuccess JSONException" +e.getMessage());
