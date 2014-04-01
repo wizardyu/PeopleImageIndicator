@@ -127,7 +127,7 @@ public class TopicNews extends Activity{
                 new int[] {R.id.ItemImage,R.id.ItemTitle,R.id.last}    
             );    
 	         //添加并且显示    
-	        list.setAdapter(listItemAdapter); 
+	        list.setAdapter(listItemAdapter);  
 	    	HttpUtil.get(urlString, new JsonHttpResponseHandler() {
 				public void onSuccess(JSONArray dataJson){
 					for(int i=0;i<dataJson.length();i++){
