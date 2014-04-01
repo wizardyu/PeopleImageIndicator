@@ -29,7 +29,9 @@ import com.image.indicator.parser.NewsXmlParser;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.wizard.adapter.LazyLoadingImageAdapter;
 import com.wizard.adapter.SlideImageAdapter;
+import com.wizard.constant.AppConstant;
 import com.wizard.loader.AsyncImageLoader;
+import com.wizard.util.ACache;
 import com.wizard.util.HttpUtil;
 
 /**
@@ -70,18 +72,16 @@ public class TopicNews extends Activity{
 	
 	private ProgressDialog pDialog;
 	
-	private SimpleAdapter listItemAdapter;
+	private LazyLoadingImageAdapter listItemAdapter;
 	
 	private AsyncImageLoader loader;
-	private View listItemsView ;
 	private Bitmap  bgImgMobileTitle_bitmap ;
-	//标题图
-	private ImageView bgImgMobileTitleView;;
+	private ACache aCache ;
 	
 	/**
 	 * 访谈交互地址
 	 */
-	private String mdomain = "http://10.100.4.99";
+	private String mdomain = AppConstant.GLOBAL_CONSTANTS_DOMAIN;
 	
 	private ListView list;
 
@@ -102,7 +102,7 @@ public class TopicNews extends Activity{
 		LayoutInflater inflater = getLayoutInflater();  
 		mMainView = (ViewGroup)inflater.inflate(R.layout.page_topic_news, null);
 		mViewPager = (ViewPager) mMainView.findViewById(R.id.image_slide_page);  
-		
+		  aCache = ACache.get(this);
 		// 圆点图片区域
 		mParser = new NewsXmlParser();
 		int length = mParser.getSlideImages().length;
@@ -122,8 +122,6 @@ public class TopicNews extends Activity{
 		mSlideTitle.setText(mParser.getSlideTitles()[0]);
 		
 		list = (ListView) mMainView.findViewById(R.id.ListView01);
-		listItemsView = View.inflate(this, R.layout.list_items, null);
-        bgImgMobileTitleView = (ImageView) listItemsView.findViewById(R.id.ItemImage);
 		loadListView();
 		setContentView(mMainView);
 		
@@ -147,40 +145,54 @@ public class TopicNews extends Activity{
 	        loader = new AsyncImageLoader(getApplicationContext());  
 	        loader.setCache2File(true);
 	        loader.setCachedDir(this.getCacheDir().getAbsolutePath());  
-	    	HttpUtil.get(urlString, new JsonHttpResponseHandler() {
-				public void onSuccess(JSONArray dataJson){
-					for(int i=0;i<dataJson.length();i++){
-						try {
-								HashMap<String, Object> map = new HashMap<String, Object>();    
-								JSONObject fangtan = (JSONObject) dataJson.get(i);
-								String fangtanTitle = (String) fangtan.get("fangtanTitle");
-								String imgUrl =	mdomain+ (String) fangtan.get("homepageUrl");
-								Log.e("test",imgUrl);
-								loader.downloadImage(imgUrl, true/*false*/, new AsyncImageLoader.ImageCallback() {  
-						        	 public void onImageLoaded(Bitmap bitmap, String imageUrl) {  
-						        		 if(bitmap != null){  
-						        			 bgImgMobileTitle_bitmap= bitmap;
-						                 }else{  
-						                 }  
-						        	 }
-						        }); 
-							 	map.put("ItemImage", bgImgMobileTitle_bitmap);  
-								map.put("ItemTitle", fangtanTitle);    
-				                listItem.add(map);
-							} catch (JSONException e) {
-								Log.e("test", " onSuccess JSONException" +e.getMessage());
-							}
+	        JSONArray dataJson = aCache.getAsJSONArray(AppConstant.ACACHE_KEY_LATESTFANGTAN);
+	        if(dataJson==null){
+	        	HttpUtil.get(urlString, new JsonHttpResponseHandler() {
+					public void onSuccess(JSONArray dataJson){
+						loadListViewDate(dataJson);
+						aCache.put(AppConstant.ACACHE_KEY_LATESTFANGTAN, dataJson);
 					}
-					listItemAdapter.notifyDataSetChanged();
-				};
-				public void onFailure(Throwable arg0) {
-	            };
-	            public void onFinish() {
-	            	listItemAdapter.notifyDataSetChanged();
-	            };
-			});
+					public void onFailure(Throwable arg0) {
+		            };
+		            public void onFinish() {
+		            	listItemAdapter.notifyDataSetChanged();
+		            };
+				});
+	        }else{
+	        	loadListViewDate(dataJson);
+	        }
+	    	
 	}
 	
+	/**
+	 * 解析
+	 * @param dataJson
+	 */
+	private void loadListViewDate(JSONArray dataJson) {
+		for(int i=0;i<dataJson.length();i++){
+			try {
+					HashMap<String, Object> map = new HashMap<String, Object>();    
+					JSONObject fangtan = (JSONObject) dataJson.get(i);
+					String fangtanTitle = (String) fangtan.get("fangtanTitle");
+					String imgUrl =	mdomain+ (String) fangtan.get("homepageUrl");
+					loader.downloadImage(imgUrl, true/*false*/, new AsyncImageLoader.ImageCallback() {  
+			        	 public void onImageLoaded(Bitmap bitmap, String imageUrl) {  
+			        		 if(bitmap != null){  
+			        			 bgImgMobileTitle_bitmap= bitmap;
+			                 }else{  
+			                 }  
+			        	 }
+			        }); 
+				 	map.put("ItemImage", bgImgMobileTitle_bitmap);  
+					map.put("ItemTitle", fangtanTitle);    
+	                listItem.add(map);
+	                
+				} catch (JSONException e) {
+					Log.e("test", " onSuccess JSONException" +e.getMessage());
+				}
+		}
+		listItemAdapter.notifyDataSetChanged();
+	};
     // 滑动页面更改事件监听器
     private class ImagePageChangeListener implements OnPageChangeListener {
         @Override  

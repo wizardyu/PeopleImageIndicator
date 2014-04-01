@@ -49,7 +49,6 @@ public class SlideImageLayout {
 	}
 	
 	/**
-	 * ��ȡLinearLayout
 	 * @param view
 	 * @param width
 	 * @param height
