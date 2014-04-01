@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ import com.image.indicator.parser.NewsXmlParser;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.wizard.adapter.LazyLoadingImageAdapter;
 import com.wizard.adapter.SlideImageAdapter;
+import com.wizard.loader.AsyncImageLoader;
 import com.wizard.util.HttpUtil;
 
 /**
@@ -69,6 +72,17 @@ public class TopicNews extends Activity{
 	
 	private SimpleAdapter listItemAdapter;
 	
+	private AsyncImageLoader loader;
+	private View listItemsView ;
+	private Bitmap  bgImgMobileTitle_bitmap ;
+	//标题图
+	private ImageView bgImgMobileTitleView;;
+	
+	/**
+	 * 访谈交互地址
+	 */
+	private String mdomain = "http://10.100.4.99";
+	
 	private ListView list;
 
 	@Override
@@ -108,6 +122,8 @@ public class TopicNews extends Activity{
 		mSlideTitle.setText(mParser.getSlideTitles()[0]);
 		
 		list = (ListView) mMainView.findViewById(R.id.ListView01);
+		listItemsView = View.inflate(this, R.layout.list_items, null);
+        bgImgMobileTitleView = (ImageView) listItemsView.findViewById(R.id.ItemImage);
 		loadListView();
 		setContentView(mMainView);
 		
@@ -117,17 +133,20 @@ public class TopicNews extends Activity{
 	}
 	
 	private void loadListView(){
-			String urlString = "http://10.100.4.99/api/fangtanApi.do?action=topicNews";
+			String urlString = mdomain+"/api/fangtanApi.do?action=topicNews";
 			listItem = new ArrayList<HashMap<String, Object>>();    
 	        listItemAdapter = new LazyLoadingImageAdapter(this,listItem,// 数据源     
                 R.layout.list_items,//ListItem的XML实现    
                 //动态数组与ImageItem对应的子项            
-                new String[] {"ItemImage","ItemTitle", "LastImage"},     
+                new String[] {"ItemImage","ItemTitle"},     
                 //ImageItem的XML文件里面的一个ImageView,两个TextView ID    
-                new int[] {R.id.ItemImage,R.id.ItemTitle,R.id.last}    
+                new int[] {R.id.ItemImage,R.id.ItemTitle}    
             );    
 	         //添加并且显示    
 	        list.setAdapter(listItemAdapter);  
+	        loader = new AsyncImageLoader(getApplicationContext());  
+	        loader.setCache2File(true);
+	        loader.setCachedDir(this.getCacheDir().getAbsolutePath());  
 	    	HttpUtil.get(urlString, new JsonHttpResponseHandler() {
 				public void onSuccess(JSONArray dataJson){
 					for(int i=0;i<dataJson.length();i++){
@@ -135,9 +154,18 @@ public class TopicNews extends Activity{
 								HashMap<String, Object> map = new HashMap<String, Object>();    
 								JSONObject fangtan = (JSONObject) dataJson.get(i);
 								String fangtanTitle = (String) fangtan.get("fangtanTitle");
-							 	map.put("ItemImage", R.drawable.loading);//图像资源的ID    
+								String imgUrl =	mdomain+ (String) fangtan.get("homepageUrl");
+								Log.e("test",imgUrl);
+								loader.downloadImage(imgUrl, true/*false*/, new AsyncImageLoader.ImageCallback() {  
+						        	 public void onImageLoaded(Bitmap bitmap, String imageUrl) {  
+						        		 if(bitmap != null){  
+						        			 bgImgMobileTitle_bitmap= bitmap;
+						                 }else{  
+						                 }  
+						        	 }
+						        }); 
+							 	map.put("ItemImage", bgImgMobileTitle_bitmap);  
 								map.put("ItemTitle", fangtanTitle);    
-				                map.put("LastImage", R.drawable.loading);   
 				                listItem.add(map);
 							} catch (JSONException e) {
 								Log.e("test", " onSuccess JSONException" +e.getMessage());
@@ -148,6 +176,7 @@ public class TopicNews extends Activity{
 				public void onFailure(Throwable arg0) {
 	            };
 	            public void onFinish() {
+	            	listItemAdapter.notifyDataSetChanged();
 	            };
 			});
 	}

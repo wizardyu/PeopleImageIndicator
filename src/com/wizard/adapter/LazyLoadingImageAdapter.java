@@ -3,8 +3,7 @@ package com.wizard.adapter;
 import java.util.List;
 import java.util.Map;
 
-import com.wizard.task.DownloadImgTask;
-import com.wizard.view.PorterDuffView;
+import com.wizard.loader.AsyncImageLoader;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -110,9 +109,6 @@ public class LazyLoadingImageAdapter extends SimpleAdapter {
                     } else if (v instanceof TextView) {
                         setViewText((TextView) v, text);
                     } else if (v instanceof ImageView) {
-                    	if(count == 0){
-                    		
-                    	}
                         if (data instanceof Integer) {
                             setViewImage((ImageView) v, (Integer) data);                            
                         } else if(data instanceof Bitmap) {

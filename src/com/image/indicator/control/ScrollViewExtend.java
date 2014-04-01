@@ -8,7 +8,6 @@ import android.widget.ScrollView;
 /**
  */
 public class ScrollViewExtend extends ScrollView {
-	// �������뼰���
     private float xDistance, yDistance, xLast, yLast;
 
     public ScrollViewExtend(Context context, AttributeSet attrs) {

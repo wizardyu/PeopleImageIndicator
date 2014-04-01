@@ -12,8 +12,9 @@
 <ImageView  
     android:paddingTop="12dip" 
     android:layout_alignParentLeft="true"
-    android:layout_width="wrap_content"  
-    android:layout_height="wrap_content"  
+    android:layout_width="50dip"  
+    android:layout_height="50dip"  
+    android:layout_gravity="center" 
     android:id="@+id/ItemImage" 
     />  
     
@@ -28,13 +29,5 @@
     android:id="@+id/ItemTitle" 
     android:layout_toRightOf="@+id/ItemImage"
     /> 
-    
-<ImageView  
-    android:paddingTop="12dip" 
-    android:layout_marginTop="20px"
-    android:layout_alignParentRight="true"
-    android:layout_width="wrap_content"  
-    android:layout_height="wrap_content"  
-    android:id="@+id/last" 
-    /> 
+
 </RelativeLayout> 
