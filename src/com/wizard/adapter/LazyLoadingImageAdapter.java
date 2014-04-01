@@ -47,21 +47,7 @@ public class LazyLoadingImageAdapter extends SimpleAdapter {
      * @see android.widget.Adapter#getView(int, View, ViewGroup)
      */
     public View getView(int position, View convertView, ViewGroup parent) {
-    	View v;
-    	if(convertView instanceof  TextView){
-    		v = super.getView(position, convertView, parent);
-    		Log.e("test","TextView");
-    	}else if(convertView instanceof  PorterDuffView){
-    		v = super.getView(position, convertView, parent);
-    		Log.e("test","PorterDuffView");
-    	}else if(convertView instanceof  ImageView){
-    		v = super.getView(position, convertView, parent);
-    		Log.e("test","ImageView");
-    		//v = createViewFromResource(position, convertView, parent, mResource);
-    	}else{
-    		v = createViewFromResource(position, convertView, parent, mResource);
-    	}
-        return v;
+        return  createViewFromResource(position, convertView, parent, mResource);
     }
 
     private View createViewFromResource(int position, View convertView,ViewGroup parent, int resource) {
@@ -123,17 +109,10 @@ public class LazyLoadingImageAdapter extends SimpleAdapter {
                         }
                     } else if (v instanceof TextView) {
                         setViewText((TextView) v, text);
-                    }else if(data instanceof PorterDuffView){
-                    	PorterDuffView pdView = (PorterDuffView) v;  
-                        if (pdView.isLoading() == false) {  
-                            DownloadImgTask task = new DownloadImgTask(pdView);  
-                            task.execute(STRING_ARR[pdView.getId() % STRING_ARR.length]);  
-                            pdView.setPorterDuffMode(true);  
-                            pdView.setLoading(true);  
-                            pdView.setProgress(0);  
-                            pdView.invalidate();  
-                        } 
                     } else if (v instanceof ImageView) {
+                    	if(count == 0){
+                    		
+                    	}
                         if (data instanceof Integer) {
                             setViewImage((ImageView) v, (Integer) data);                            
                         } else if(data instanceof Bitmap) {
