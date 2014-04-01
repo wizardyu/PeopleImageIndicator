@@ -12,25 +12,9 @@ import com.image.indicator.R;
 //import com.image.indicator.entity.News;
 import com.image.indicator.utility.FileAccess;
 
-/**
- * ½âÎöĞÂÎÅÊı¾İÁĞ±í
- * @Description: ½âÎöĞÂÎÅÊı¾İÁĞ±í£¬ÕâÀïÖ»ÊÇ¸öÊ¾Àı£¬¾ßÌåµØ²»ÔÙÊµÏÖ¡£
-
- * @File: NewsXmlParser.java
-
- * @Package com.image.indicator.parser
-
- * @Author Hanyonglu
-
- * @Date 2012-6-18 ÏÂÎç02:31:26
-
- * @Version V1.0
- */
 public class NewsXmlParser {
-	// ĞÂÎÅÁĞ±í
 //	private List<HashMap<String, News>> newsList = null;
 	
-	// »¬¶¯Í¼Æ¬µÄ¼¯ºÏ£¬ÕâÀïÉèÖÃ³ÉÁË¹Ì¶¨¼ÓÔØ£¬µ±È»Ò²¿É¶¯Ì¬¼ÓÔØ¡£
 	private int[] slideImages = {
 			R.drawable.image01,
 			R.drawable.image02,
@@ -38,7 +22,7 @@ public class NewsXmlParser {
 			R.drawable.image04,
 			R.drawable.image05};
 	
-	// »¬¶¯±êÌâµÄ¼¯ºÏ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 	private int[] slideTitles = {
 			R.string.title1,
 			R.string.title2,
@@ -47,7 +31,7 @@ public class NewsXmlParser {
 			R.string.title5,
 	};
 	
-	// »¬¶¯Á´½ÓµÄ¼¯ºÏ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄ¼ï¿½ï¿½ï¿½
 	private String[] slideUrls = {
 			"http://mobile.csdn.net/a/20120616/2806676.html",
 			"http://cloud.csdn.net/a/20120614/2806646.html",
@@ -69,7 +53,7 @@ public class NewsXmlParser {
 	}
 	
 	/**
-	 * »ñÈ¡XmlPullParser¶ÔÏó
+	 * ï¿½ï¿½È¡XmlPullParserï¿½ï¿½ï¿½ï¿½
 	 * @param result
 	 * @return
 	 */
@@ -92,33 +76,33 @@ public class NewsXmlParser {
 		
 		try {
 			XmlPullParser parser = getXmlPullParser(result);
-	        int event = parser.getEventType();//²úÉúµÚÒ»¸öÊÂ¼ş
+	        int event = parser.getEventType();
 	        
 	        while(event != XmlPullParser.END_DOCUMENT){
 	        	switch(event){
 	        	case XmlPullParser.START_DOCUMENT:
 	        		break;
-	        	case XmlPullParser.START_TAG://ÅĞ¶Ïµ±Ç°ÊÂ¼şÊÇ·ñÊÇ±êÇ©ÔªËØ¿ªÊ¼ÊÂ¼ş
-	        		if("count".equals(parser.getName())){//ÅĞ¶Ï¿ªÊ¼±êÇ©ÔªËØÊÇ·ñÊÇcount
+	        	case XmlPullParser.START_TAG:
+	        		if("count".equals(parser.getName())){
 	        			count = Integer.parseInt(parser.nextText());
 	                }
 	        		
 	        		break;
-	        	case XmlPullParser.END_TAG://ÅĞ¶Ïµ±Ç°ÊÂ¼şÊÇ·ñÊÇ±êÇ©ÔªËØ½áÊøÊÂ¼ş
-//	        		if("count".equals(parser.getName())){//ÅĞ¶Ï¿ªÊ¼±êÇ©ÔªËØÊÇ·ñÊÇcount
+	        	case XmlPullParser.END_TAG:
+//	        		if("count".equals(parser.getName())){
 //	        			count = Integer.parseInt(parser.nextText());
 //	                }
 	        		
 	        		break;
 	        	}
             
-	        	event = parser.next();//½øÈëÏÂÒ»¸öÔªËØ²¢´¥·¢ÏàÓ¦ÊÂ¼ş
+	        	event = parser.next();
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		// ÎŞ·µ»ØÖµ£¬Ôò·µ»Ø-1
+		
 		return count;
 	}
 }

@@ -6,21 +6,9 @@ import android.view.MotionEvent;
 import android.widget.ScrollView;
 
 /**
- * ÄÜ¹»¼æÈİViewPagerµÄScrollView
- * @Description: ½â¾öÁËViewPagerÔÚScrollViewÖĞµÄ»¬¶¯·´µ¯ÎÊÌâ
-
- * @File: ViewPagerCompatScrollView.java
-
- * @Package com.image.indicator.control
-
- * @Author Hanyonglu
-
- * @Date 2012-6-18 ÏÂÎç01:34:50
-
- * @Version V1.0
  */
 public class ScrollViewExtend extends ScrollView {
-	// »¬¶¯¾àÀë¼°×ø±ê
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¼°ï¿½ï¿½ï¿½
     private float xDistance, yDistance, xLast, yLast;
 
     public ScrollViewExtend(Context context, AttributeSet attrs) {

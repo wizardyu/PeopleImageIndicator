@@ -14,29 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 
-/**
- * 生成滑动图片区域布局
- * @Description: 生成滑动图片区域布局
-
- * @File: SlideImageLayout.java
-
- * @Package com.image.indicator.layout
-
- * @Author Hanyonglu
-
- * @Date 2012-6-18 上午09:04:14
-
- * @Version V1.0
- */
 public class SlideImageLayout {
-	// 包含图片的ArrayList
 	private ArrayList<ImageView> mImageList = null;
 	private Context mContext = null;
-	// 圆点图片集合
 	private ImageView[] mImageViews = null; 
 	private ImageView mImageView = null;
 	private NewsXmlParser mParser = null;
-	// 表示当前滑动图片的索引
 	private int pageIndex = 0;
 	
 	public SlideImageLayout(Context context) {
@@ -46,12 +29,10 @@ public class SlideImageLayout {
 	}
 	
 	/**
-	 * 生成滑动图片区域布局
 	 * @param id
 	 * @return
 	 */
 	public View getSlideImageLayout(int id){
-		// 包含TextView的LinearLayout
 		LinearLayout imageLinerLayout = new LinearLayout(mContext);
 		LinearLayout.LayoutParams imageLinerLayoutParames = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT, 
@@ -68,7 +49,7 @@ public class SlideImageLayout {
 	}
 	
 	/**
-	 * 获取LinearLayout
+	 * 锟斤拷取LinearLayout
 	 * @param view
 	 * @param width
 	 * @param height
@@ -80,7 +61,6 @@ public class SlideImageLayout {
 				width, 
 				height,
 				1);
-		// 这里最好也自定义设置，有兴趣的自己设置。
 		linerLayout.setPadding(10, 0, 10, 0);
 		linerLayout.addView(view, linerLayoutParames);
 		
@@ -88,7 +68,6 @@ public class SlideImageLayout {
 	}
 	
 	/**
-	 * 设置圆点个数
 	 * @param size
 	 */
 	public void setCircleImageLayout(int size){
@@ -96,7 +75,6 @@ public class SlideImageLayout {
 	}
 	
 	/**
-	 * 生成圆点图片区域布局对象
 	 * @param index
 	 * @return
 	 */
@@ -108,7 +86,7 @@ public class SlideImageLayout {
         mImageViews[index] = mImageView;
          
         if (index == 0) {  
-            //默认选中第一张图片
+            //默锟斤拷选锟叫碉拷一锟斤拷图片
             mImageViews[index].setBackgroundResource(R.drawable.dot_selected);  
         } else {  
             mImageViews[index].setBackgroundResource(R.drawable.dot_none);  
@@ -118,15 +96,13 @@ public class SlideImageLayout {
 	}
 	
 	/**
-	 * 设置当前滑动图片的索引
 	 * @param index
 	 */
 	public void setPageIndex(int index){
 		pageIndex = index;
 	}
-	
-	// 滑动页面点击事件监听器
-    private class ImageOnClickListener implements OnClickListener{
+
+	private class ImageOnClickListener implements OnClickListener{
     	@Override
     	public void onClick(View v) {
     		Toast.makeText(mContext, mParser.getSlideTitles()[pageIndex], Toast.LENGTH_SHORT).show();

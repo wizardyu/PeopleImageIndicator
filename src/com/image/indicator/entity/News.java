@@ -1,35 +1,16 @@
 package com.image.indicator.entity;
 
 /**
- * 新闻实体类
- * @Description: 新闻实体类
-
- * @File: News.java
-
- * @Package com.image.indicator.entity
-
- * @Author Hanyonglu
-
- * @Date 2012-6-18 下午02:25:02
-
- * @Version V1.0
  */
 public class News {
 	// ID
 	private int id;
-	// 简要标题
 	private String simpleTitle;
-	// 完整标题
 	private String fullTitle;
-	// 链接地址
 	private String newsUrl;
-	// 新闻内容
 	private String newsContent;
-	// 查看次数
 	private int viewCount;
-	// 评论次数
 	private int commentCount;
-	// 是否被读过
 	private boolean isReaded;
 	
 	public int getId() {
