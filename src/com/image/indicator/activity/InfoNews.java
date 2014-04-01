@@ -6,8 +6,8 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * ×ÊÑ¶Activity
- * @Description: ×ÊÑ¶Activity
+ * ï¿½ï¿½Ñ¶Activity
+ * @Description: ï¿½ï¿½Ñ¶Activity
 
  * @File: InfoNews.java
 
@@ -15,7 +15,7 @@ import android.os.Bundle;
 
  * @Author Hanyonglu
 
- * @Date 2012-6-18 ÉÏÎç08:27:30
+ * @Date 2012-6-18 ï¿½ï¿½ï¿½ï¿½08:27:30
 
  * @Version V1.0
  */

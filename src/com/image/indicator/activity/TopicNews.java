@@ -27,7 +27,6 @@ import com.image.indicator.parser.NewsXmlParser;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.wizard.adapter.LazyLoadingImageAdapter;
 import com.wizard.adapter.SlideImageAdapter;
-import com.wizard.loader.AsyncImageLoader;
 import com.wizard.util.HttpUtil;
 
 /**
