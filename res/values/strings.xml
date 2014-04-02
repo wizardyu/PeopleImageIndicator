@@ -13,6 +13,8 @@
     <string name="title_news_category_more">更多</string>
     <string name="img_duoyun_desc">天气预报</string>
     
+    <string name="title_radio_category_guest">访谈嘉宾</string>
+    
     <!-- 滑动区域文字及链接 -->
     <string name="title1">苹果在中国市场：Google的劣势反而是苹果的优势</string>
     <string name="title2">吞噬大数据存储领域新机制——NoSQL模式解析</string>
@@ -26,4 +28,5 @@
     <string name="picture_top_left_text">图片</string>
     <string name="follow_top_left_text">跟帖</string>
     <string name="vote_top_left_text">投票</string>
+    <string name="guest_top_left_text">嘉宾</string>
 </resources>

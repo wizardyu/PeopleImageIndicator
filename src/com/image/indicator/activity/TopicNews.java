@@ -75,6 +75,7 @@ public class TopicNews extends Activity{
 	private AsyncImageLoader loader;
 	private Bitmap  bgImgMobileTitle_bitmap ;
 	private ACache aCache ;
+	private int totalHeight;
 	
 	/**
 	 * 访谈交互地址

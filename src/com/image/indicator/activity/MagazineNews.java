@@ -6,16 +6,11 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * ��־Activity
- * @Description: ��־Activity
-
  * @File: MagazineNews.java
 
  * @Package com.image.indicator.activity
 
  * @Author Hanyonglu
-
- * @Date 2012-6-18 ����08:26:02
 
  * @Version V1.0
  */

@@ -10,4 +10,5 @@ public class AppConstant {
 	
 	/**全局常量**/
 	public static final String GLOBAL_CONSTANTS_DOMAIN = "http://10.100.4.99/";
+	public static final String GLOBAL_CONSTANTS_SNSDOMAIN = "http://sns.people.com.cn/";
 }

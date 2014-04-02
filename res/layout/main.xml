@@ -5,9 +5,7 @@
     android:orientation="vertical"
     android:weightSum="10" >
 
-    <include
-        android:id="@+id/header"
-        layout="@layout/header" />
+    <include android:id="@+id/header" layout="@layout/header" />
 
     <RelativeLayout
         android:id="@+id/layout_news_main"
@@ -63,5 +61,7 @@
                 android:button="@null" />
         </RadioGroup>
     </RelativeLayout>
-
+    <!-- 
+    	<include android:id="@+id/bottom" layout="@layout/bottom" />
+ 	-->
 </LinearLayout>

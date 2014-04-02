@@ -19,7 +19,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.RelativeLayout.LayoutParams;
+import android.widget.RelativeLayout.LayoutParams;;
 
 /**
  * @File: MainActivity.java
@@ -188,24 +188,38 @@ public class MainActivity extends ActivityGroup implements OnClickListener, OnCh
 		case R.id.radio_news:
 			ImageAnimation.SetImageSlide(mImageView, startLeft, 0, 0, 0);
 			startLeft = 0;
+			mIntent.setClass(MainActivity.this, TopicNews.class);
+			mNewsMain = getLocalActivityManager().startActivity("TopicNews", mIntent).getDecorView();
+			mSelectedItem.setText(R.string.title_news_category_tops);
+			mNetEaseTop.setText(R.string.title_news_category_tops);
+			mHeader.setVisibility(View.VISIBLE);
 			break;
 		case R.id.radio_topic:
 			ImageAnimation.SetImageSlide(mImageView, startLeft, mImageView.getWidth(), 0, 0);
 			startLeft = mImageView.getWidth();
 			mIntent.setClass(MainActivity.this, TabFollowActivity.class);
 			mNewsMain = getLocalActivityManager().startActivity("TabFollowActivity", mIntent).getDecorView();
+			mHeader.setVisibility(View.GONE);
 			break;
 		case R.id.radio_pic:
 			ImageAnimation.SetImageSlide(mImageView, startLeft, mImageView.getWidth() * 2, 0, 0);
 			startLeft = mImageView.getWidth() * 2;
+			mHeader.setVisibility(View.GONE);
 			break;
 		case R.id.radio_follow:
 			ImageAnimation.SetImageSlide(mImageView, startLeft, mImageView.getWidth() * 3, 0, 0);
 			startLeft = mImageView.getWidth() * 3;
+			mIntent.setClass(MainActivity.this, TabFollowActivity.class);
+			mNewsMain = getLocalActivityManager().startActivity("TabFollowActivity", mIntent).getDecorView();
+			mHeader.setVisibility(View.GONE);
 			break;
 		case R.id.radio_vote:
 			ImageAnimation.SetImageSlide(mImageView, startLeft, mImageView.getWidth() * 4, 0, 0);
 			startLeft = mImageView.getWidth() * 4;
+			mIntent.setClass(MainActivity.this, RadioGuestActivity.class);
+			mNewsMain = getLocalActivityManager().startActivity("RadioGuestActivity", mIntent).getDecorView();
+			mHeader.setVisibility(View.GONE);
+			mNetEaseTop.setText(R.string.title_radio_category_guest);
 			break;
 
 		default:
