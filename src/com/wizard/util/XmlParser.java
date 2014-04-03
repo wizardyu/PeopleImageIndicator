@@ -37,13 +37,13 @@ public class XmlParser {
 			HttpPost httpPost = new HttpPost(url);
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			HttpEntity httpEntity = httpResponse.getEntity();
-			xml = EntityUtils.toString(httpEntity); // 生成一个请求对象，参数就是地址
+			xml = EntityUtils.toString(httpEntity,"UTF-8"); // 生成一个请求对象，参数就是地址
 			HttpGet httpGet = new HttpGet(url); // 生成Http客户端
 			HttpClient httpClientGet = new DefaultHttpClient(); // 发送请求的响应
 			httpResponse = httpClientGet.execute(httpGet); // 代表接收的http消息，服务器返回的消息都在
 			httpEntity = httpResponse.getEntity();
 			if (httpResponse.getStatusLine().getStatusCode() == 200) {
-				xml = EntityUtils.toString(httpEntity);
+				xml = EntityUtils.toString(httpEntity,"UTF-8");
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
