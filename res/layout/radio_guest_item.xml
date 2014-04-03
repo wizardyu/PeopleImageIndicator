@@ -19,8 +19,8 @@
             android:id="@+id/list_image"     
             android:layout_width="50dip"  
             android:layout_height="50dip"  
+         android:src="@drawable/rihanna" 
         />  
-         <!--     android:src="@drawable/rihanna" -->
     </LinearLayout>  
        
     <!-- 歌曲名-->  
@@ -66,6 +66,6 @@
      <ImageView android:layout_width="wrap_content"  
         android:layout_height="wrap_content"  
         android:layout_alignParentRight="true"  
+  		 android:src="@drawable/arrow" 
         android:layout_centerVertical="true"/>  
-   <!-- android:src="@drawable/arrow"   -->
 </RelativeLayout>  
