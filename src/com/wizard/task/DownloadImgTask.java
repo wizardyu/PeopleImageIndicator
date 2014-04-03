@@ -21,7 +21,7 @@ import android.os.AsyncTask;
 
 /**
  * @author Sodino E-mail:sodinoopen@hotmail.com
- * @version Time：2012-7-5 上午03:34:58
+ * @version Time锟斤拷2012-7-5 锟斤拷锟斤拷03:34:58
  */
 public class DownloadImgTask extends AsyncTask<String, Float, Bitmap> {
 	private PorterDuffView pdView;
@@ -30,11 +30,11 @@ public class DownloadImgTask extends AsyncTask<String, Float, Bitmap> {
 		this.pdView = pdView;
 	}
 
-	/** 下载准备工作。在UI线程中调用。 */
+	/** 锟斤拷锟斤拷准锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷UI锟竭筹拷锟叫碉拷锟矫★拷 */
 	protected void onPreExecute() {
 	}
 
-	/** 执行下载。在背景线程调用。 */
+	/** 执锟斤拷锟斤拷锟截★拷锟节憋拷锟斤拷锟竭程碉拷锟矫★拷 */
 	protected Bitmap doInBackground(String... params) {
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(params[0]);
@@ -79,13 +79,13 @@ public class DownloadImgTask extends AsyncTask<String, Float, Bitmap> {
 		return null;
 	}
 
-	/** 更新下载进度。在UI线程调用。onProgressUpdate */
+	/** 锟斤拷锟斤拷锟斤拷锟截斤拷取锟斤拷锟経I锟竭程碉拷锟矫★拷onProgressUpdate */
 	protected void onProgressUpdate(Float... progress) {
 		// LogOut.out(this, "onProgressUpdate");
 		pdView.setProgress(progress[0]);
 	}
 
-	/** 通知下载任务完成。在UI线程调用。 */
+	/** 通知锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷伞锟斤拷锟経I锟竭程碉拷锟矫★拷 */
 	protected void onPostExecute(Bitmap bit) {
 		pdView.setPorterDuffMode(false);
 		pdView.setLoading(false);
