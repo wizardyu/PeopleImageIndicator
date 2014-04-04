@@ -13,17 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.image.indicator.R;
-import com.image.indicator.activity.RadioGuestActivity;
 import com.wizard.constant.AppConstant;
 import com.wizard.loader.ImageLoader;
 
-public class NetMusicAdapter extends BaseAdapter {
+public class NetImageAdapter extends BaseAdapter {
 	private Activity activity;
 	private ArrayList<HashMap<String, String>> data;
 	private static LayoutInflater inflater = null;
 	public ImageLoader imageLoader; // 用来下载图片的类，后面有介绍
 
-	public NetMusicAdapter(Activity a, ArrayList<HashMap<String, String>> d) {
+	public NetImageAdapter(Activity a, ArrayList<HashMap<String, String>> d) {
 		activity = a;
 		data = d;
 		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

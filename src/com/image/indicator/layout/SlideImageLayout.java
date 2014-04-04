@@ -2,22 +2,22 @@ package com.image.indicator.layout;
 
 import java.util.ArrayList;
 
-import com.image.indicator.R;
-import com.wizard.constant.AppConstant;
-import com.wizard.parser.NewsXmlParser;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.widget.ImageView.ScaleType;
+
+import com.image.indicator.R;
+import com.wizard.constant.AppConstant;
+import com.wizard.parser.NewsXmlParser;
 
 public class SlideImageLayout {
 	private ArrayList<ImageView> mImageList = null;
@@ -38,7 +38,7 @@ public class SlideImageLayout {
 	 * @return
 	 */
 	@SuppressLint("NewApi")
-	public View getSlideImageLayout(Bitmap id){
+	public View getSlideImageLayout(Bitmap id,Resources res){
 		LinearLayout imageLinerLayout = new LinearLayout(mContext);
 		LinearLayout.LayoutParams imageLinerLayoutParames = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT, 
@@ -46,8 +46,8 @@ public class SlideImageLayout {
 				1);
 		
 		ImageView iv = new ImageView(mContext);
-//		iv.setBackgroundResource(id);
-		iv.setBackground(new BitmapDrawable(id));
+		//		iv.setBackgroundResource(id);
+		iv.setBackground(new BitmapDrawable(res,id));
 		iv.setOnClickListener(new ImageOnClickListener());
 		imageLinerLayout.addView(iv,imageLinerLayoutParames);
 		mImageList.add(iv);

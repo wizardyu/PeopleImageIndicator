@@ -3,14 +3,7 @@ package com.wizard.parser;
 import java.io.InputStream;
 //import java.util.HashMap;
 //import java.util.List;
-
-
-
-
-
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.w3c.dom.Document;
@@ -20,10 +13,8 @@ import org.xmlpull.v1.XmlPullParser;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.util.Xml;
 
-import com.image.indicator.R;
 //import com.image.indicator.entity.News;
 import com.image.indicator.utility.FileAccess;
 import com.wizard.constant.AppConstant;

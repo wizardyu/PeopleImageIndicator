@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -27,6 +26,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.wizard.adapter.LazyLoadingImageAdapter;
 import com.wizard.adapter.SlideImageAdapter;
 import com.wizard.constant.AppConstant;
+import com.wizard.listener.FangtanListListener;
 import com.wizard.loader.AsyncImageLoader;
 import com.wizard.parser.NewsXmlParser;
 import com.wizard.util.ACache;
@@ -67,15 +67,10 @@ public class TopicNews extends Activity{
 	private NewsXmlParser mParser = null; 
 	//列表输出
 	private ArrayList<HashMap<String, Object>> listItem ;
-	
-	private ProgressDialog pDialog;
-	
 	private LazyLoadingImageAdapter listItemAdapter;
-	
 	private AsyncImageLoader loader;
 	private Bitmap  bgImgMobileTitle_bitmap ;
 	private ACache aCache ;
-	private int totalHeight;
 	
 	/**
 	 * 访谈交互地址
@@ -109,9 +104,8 @@ public class TopicNews extends Activity{
 		mImageCircleView = (ViewGroup) mMainView.findViewById(R.id.layout_circle_images);
 		mSlideLayout = new SlideImageLayout(TopicNews.this);
 		mSlideLayout.setCircleImageLayout(length);
-		
 		for(int i = 0; i < length; i++){
-			mImagePageViewList.add(mSlideLayout.getSlideImageLayout(mParser.getSlideImages()[i]));
+			mImagePageViewList.add(mSlideLayout.getSlideImageLayout(mParser.getSlideImages()[i],this.getResources()));
 			mImageCircleViews[i] = mSlideLayout.getCircleImageLayout(i);
 			mImageCircleView.addView(mSlideLayout.getLinearLayout(mImageCircleViews[i], 10, 10));
 		}
@@ -127,6 +121,7 @@ public class TopicNews extends Activity{
 		// 设置ViewPager
         mViewPager.setAdapter(new SlideImageAdapter(mImagePageViewList));  
         mViewPager.setOnPageChangeListener(new ImagePageChangeListener());
+        list.setOnItemClickListener(new FangtanListListener(this));
 	}
 	
 	private void loadListView(){

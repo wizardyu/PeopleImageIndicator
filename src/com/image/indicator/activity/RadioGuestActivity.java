@@ -11,11 +11,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ListView;
 
 import com.image.indicator.R;
-import com.wizard.adapter.NetMusicAdapter;
+import com.wizard.adapter.NetImageAdapter;
 import com.wizard.constant.AppConstant;
+import com.wizard.listener.FangtanGuestListListener;
 import com.wizard.parser.XmlParser;
 
 public class RadioGuestActivity extends BaseActivity {
@@ -25,7 +28,7 @@ public class RadioGuestActivity extends BaseActivity {
   
     
     
-    NetMusicAdapter adatper;
+    NetImageAdapter adatper;
     ListView listview;
 
     @Override
@@ -59,9 +62,9 @@ public class RadioGuestActivity extends BaseActivity {
                     songsList.add(map);
             }
             listview = (ListView) findViewById(R.id.guest_list);
-            adatper = new NetMusicAdapter(this, songsList);
+            adatper = new NetImageAdapter(this, songsList);
             listview.setAdapter(adatper);
-
+            listview.setOnClickListener(new FangtanGuestListListener(this));
     }
 
 

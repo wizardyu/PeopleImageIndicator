@@ -21,12 +21,10 @@ public class downWebImage extends SimpleAdapter {
     private List<? extends Map<String, ?>> mData;
     private int mResource;
     private LayoutInflater mInflater;
-    private int mDropDownResource;
 
     public downWebImage(Context context,List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
         super(context, data, resource, from, to);
         mData = data;
-        mResource = mDropDownResource = resource;
         mFrom = from;
         mTo = to;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -63,7 +61,7 @@ public class downWebImage extends SimpleAdapter {
     }
 
     private void bindView(int position, View view) {
-        final Map dataSet = mData.get(position);
+        final Map<?, ?> dataSet = mData.get(position);
         if (dataSet == null) {
             return;
         }

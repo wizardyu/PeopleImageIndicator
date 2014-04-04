@@ -29,4 +29,11 @@
     <string name="follow_top_left_text">跟帖</string>
     <string name="vote_top_left_text">投票</string>
     <string name="guest_top_left_text">嘉宾</string>
+    
+    
+    <string name="fangtan_detail_desc">访谈简介</string>
+    <string name="fangtan_detail_local">访谈地点</string>
+    <string name="fangtan_detail_date">访谈时间</string>
+    <string name="fangtan_detail_title">访谈时间</string>
+    
 </resources>

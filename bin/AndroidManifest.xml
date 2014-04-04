@@ -55,5 +55,13 @@
             android:screenOrientation="portrait" 
             android:name=".activity.RadioGuestActivity">
         </activity>
+        <activity 
+            android:screenOrientation="portrait" 
+            android:name=".activity.FangtanDetai">
+        </activity>
+        <activity 
+            android:screenOrientation="portrait" 
+            android:name=".activity.FangtanGuestDetai">
+        </activity>
     </application>
 </manifest>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="10" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/fangtanDetail_top"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:background="#990000" >
+
+            <ImageView
+                android:layout_width="52dip"
+                android:layout_height="14dip"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/logo" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fangtan_detail"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/fangtanDetail_homepage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF" >
+
+            <ImageView
+                android:id="@+id/img_fangtan_homepage"
+                android:layout_width="fill_parent"
+                android:layout_height="31dip"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/loading" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fangtanDetail01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF" >
+
+            <TextView
+                android:id="@+id/fangtan_detail_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/fangtan_detail_title"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fangtanDetail02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF" >
+
+            <ListView
+                android:id="@+id/fangtanGuest_list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:divider="#b5b5b5"
+                android:dividerHeight="1dp"
+                android:listSelector="@drawable/list_selector" />
+            
+            <ImageView
+                android:id="@+id/fangtanDetail_img_date"
+                android:layout_width="30dip"
+                android:layout_height="28dip"
+                android:src="@drawable/fangtandetail_date" />
+            
+            <TextView
+                android:id="@+id/fangtan_detail_date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/fangtanDetail_img_date"
+                android:text="@string/fangtan_detail_date"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+            
+        </RelativeLayout>
+        
+         <RelativeLayout
+            android:id="@+id/fangtanDetail03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF" >
+	            <ImageView
+	                android:id="@+id/fangtanDetail_img_local"
+	                android:layout_width="18dip"
+	                android:layout_height="21dip"
+	                android:src="@drawable/fangtandetail_local" />
+	            
+	            <TextView
+	                android:id="@+id/fangtan_detail_local"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_centerVertical="true"
+	                android:layout_toRightOf="@+id/fangtanDetail_img_local"
+	                android:text="@string/fangtan_detail_local"
+	                android:textColor="@android:color/black"
+	                android:textSize="20sp" />
+        </RelativeLayout>
+        
+          <RelativeLayout
+            android:id="@+id/fangtanDetail04"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF" >
+	           <TextView
+	                android:id="@+id/fangtan_detail_desc"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_centerVertical="true"
+	                android:text="@string/fangtan_detail_desc"
+	                android:textColor="@android:color/black"
+	                android:textSize="20sp" />
+          </RelativeLayout>
+         
+    </LinearLayout>
+
+</LinearLayout>
