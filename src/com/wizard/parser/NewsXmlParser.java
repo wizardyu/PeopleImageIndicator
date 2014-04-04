@@ -1,50 +1,73 @@
-package com.image.indicator.parser;
+package com.wizard.parser;
 
 import java.io.InputStream;
 //import java.util.HashMap;
 //import java.util.List;
 
+
+
+
+
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlPullParser;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.Xml;
 
 import com.image.indicator.R;
 //import com.image.indicator.entity.News;
 import com.image.indicator.utility.FileAccess;
+import com.wizard.constant.AppConstant;
+import com.wizard.loader.ImageLoader;
 
-public class NewsXmlParser {
-//	private List<HashMap<String, News>> newsList = null;
+public class NewsXmlParser{
 	
-	private int[] slideImages = {
-			R.drawable.image01,
-			R.drawable.image02,
-			R.drawable.image03,
-			R.drawable.image04,
-			R.drawable.image05};
+	ImageLoader imageLoader;
 	
-	// ��������ļ���
-	private int[] slideTitles = {
-			R.string.title1,
-			R.string.title2,
-			R.string.title3,
-			R.string.title4,
-			R.string.title5,
+	public NewsXmlParser(String url,Context context){
+		 imageLoader = new ImageLoader(context);
+		 XmlParser parser = new XmlParser();
+		 String xml = parser.getXmlFromUrl(url);
+		 Document doc = parser.getDomElement(xml); // 获取 DOM 节点
+         NodeList nl = doc.getElementsByTagName(AppConstant.KEY_ITEM);
+         List<String> titles = new ArrayList<String>();
+         List<Bitmap> images = new ArrayList<Bitmap>();
+         List<String> ids= new ArrayList<String>();
+         for (int i = 0; i < nl.getLength(); i++) {
+        	 Element e = (Element) nl.item(i);
+        	 images.add(	imageLoader.getBitmap(parser.getValue(e, AppConstant.KEY_FANGTANIMAGE)));
+        	 ids.add( parser.getValue(e, AppConstant.KEY_ID));
+        	 titles.add( parser.getValue(e, AppConstant.KEY_FANGTANTITLE));
+        
+         }
+         slideTitles =titles.toArray(new String[0]);
+         slideUrls  = ids.toArray(new String[0]);
+         slideImages = images.toArray(new Bitmap[0]);
+	}
+	
+	private Bitmap[] slideImages = {
 	};
 	
-	// �������ӵļ���
+	private String[] slideTitles = {
+	};
+	
 	private String[] slideUrls = {
-			"http://mobile.csdn.net/a/20120616/2806676.html",
-			"http://cloud.csdn.net/a/20120614/2806646.html",
-			"http://mobile.csdn.net/a/20120613/2806603.html",
-			"http://news.csdn.net/a/20120612/2806565.html",
-			"http://mobile.csdn.net/a/20120615/2806659.html",
 	};
 	
-	public int[] getSlideImages(){
+	public Bitmap[] getSlideImages(){
 		return slideImages;
 	}
 	
-	public int[] getSlideTitles(){
+	public String[] getSlideTitles(){
 		return slideTitles;
 	}
 	
@@ -53,7 +76,6 @@ public class NewsXmlParser {
 	}
 	
 	/**
-	 * ��ȡXmlPullParser����
 	 * @param result
 	 * @return
 	 */

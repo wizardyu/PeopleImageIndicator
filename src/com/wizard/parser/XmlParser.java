@@ -1,4 +1,4 @@
-package com.wizard.util;
+package com.wizard.parser;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -35,6 +35,7 @@ public class XmlParser {
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
+			Log.e("test","getXmlFromUrl["+url+"]");
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			HttpEntity httpEntity = httpResponse.getEntity();
 			xml = EntityUtils.toString(httpEntity,"UTF-8"); // 生成一个请求对象，参数就是地址

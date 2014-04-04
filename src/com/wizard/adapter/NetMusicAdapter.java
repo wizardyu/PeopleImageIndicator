@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.image.indicator.R;
 import com.image.indicator.activity.RadioGuestActivity;
+import com.wizard.constant.AppConstant;
 import com.wizard.loader.ImageLoader;
 
 public class NetMusicAdapter extends BaseAdapter {
@@ -55,10 +56,10 @@ public class NetMusicAdapter extends BaseAdapter {
 		ImageView thumb_image = (ImageView) vi.findViewById(R.id.list_image); // 缩略图
 		HashMap<String, String> song = new HashMap<String, String>();
 		song = data.get(position); // 设置ListView的相关值
-		title.setText(song.get(RadioGuestActivity.KEY_USERNICK));
-		artist.setText(song.get(RadioGuestActivity.KEY_USERTITLE));
-		duration.setText(song.get(RadioGuestActivity.KEY_LASTFANGTANDATE));
-		imageLoader.DisplayImage(song.get(RadioGuestActivity.KEY_USERIMAGE_URL), thumb_image);
+		title.setText(song.get(AppConstant.KEY_USERNICK));
+		artist.setText(song.get(AppConstant.KEY_USERTITLE));
+		duration.setText(song.get(AppConstant.KEY_LASTFANGTANDATE));
+		imageLoader.DisplayImage(song.get(AppConstant.KEY_USERIMAGE_URL), thumb_image);
 		return vi;
 	}
 }

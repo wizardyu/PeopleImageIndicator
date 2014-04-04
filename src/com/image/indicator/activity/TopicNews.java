@@ -23,12 +23,12 @@ import android.widget.TextView;
 
 import com.image.indicator.R;
 import com.image.indicator.layout.SlideImageLayout;
-import com.image.indicator.parser.NewsXmlParser;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.wizard.adapter.LazyLoadingImageAdapter;
 import com.wizard.adapter.SlideImageAdapter;
 import com.wizard.constant.AppConstant;
 import com.wizard.loader.AsyncImageLoader;
+import com.wizard.parser.NewsXmlParser;
 import com.wizard.util.ACache;
 import com.wizard.util.HttpUtil;
 
@@ -101,9 +101,9 @@ public class TopicNews extends Activity{
 		LayoutInflater inflater = getLayoutInflater();  
 		mMainView = (ViewGroup)inflater.inflate(R.layout.page_topic_news, null);
 		mViewPager = (ViewPager) mMainView.findViewById(R.id.image_slide_page);  
-		  aCache = ACache.get(this);
+		aCache = ACache.get(this);
 		// 圆点图片区域
-		mParser = new NewsXmlParser();
+		mParser = new NewsXmlParser(AppConstant.GLOBAL_CONSTANTS_DOMAIN+AppConstant.FANGTAN_XML_HOMEPAGEFANGTANS,this);
 		int length = mParser.getSlideImages().length;
 		mImageCircleViews = new ImageView[length];
 		mImageCircleView = (ViewGroup) mMainView.findViewById(R.id.layout_circle_images);
@@ -130,7 +130,7 @@ public class TopicNews extends Activity{
 	}
 	
 	private void loadListView(){
-			String urlString = mdomain+"/api/fangtanApi.do?action=topicNews";
+			String urlString = mdomain+AppConstant.FANGTAN_XML_FEATUREDFANGTANS;
 			listItem = new ArrayList<HashMap<String, Object>>();    
 	        listItemAdapter = new LazyLoadingImageAdapter(this,listItem,// 数据源     
                 R.layout.list_items,//ListItem的XML实现    

@@ -3,9 +3,14 @@ package com.image.indicator.layout;
 import java.util.ArrayList;
 
 import com.image.indicator.R;
-import com.image.indicator.parser.NewsXmlParser;
+import com.wizard.constant.AppConstant;
+import com.wizard.parser.NewsXmlParser;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -25,14 +30,15 @@ public class SlideImageLayout {
 	public SlideImageLayout(Context context) {
 		this.mContext = context;
 		mImageList = new ArrayList<ImageView>();
-		mParser = new NewsXmlParser();
+		mParser = new NewsXmlParser(AppConstant.GLOBAL_CONSTANTS_DOMAIN+AppConstant.FANGTAN_XML_HOMEPAGEFANGTANS,context);
 	}
 	
 	/**
 	 * @param id
 	 * @return
 	 */
-	public View getSlideImageLayout(int id){
+	@SuppressLint("NewApi")
+	public View getSlideImageLayout(Bitmap id){
 		LinearLayout imageLinerLayout = new LinearLayout(mContext);
 		LinearLayout.LayoutParams imageLinerLayoutParames = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT, 
@@ -40,7 +46,8 @@ public class SlideImageLayout {
 				1);
 		
 		ImageView iv = new ImageView(mContext);
-		iv.setBackgroundResource(id);
+//		iv.setBackgroundResource(id);
+		iv.setBackground(new BitmapDrawable(id));
 		iv.setOnClickListener(new ImageOnClickListener());
 		imageLinerLayout.addView(iv,imageLinerLayoutParames);
 		mImageList.add(iv);
@@ -85,7 +92,6 @@ public class SlideImageLayout {
         mImageViews[index] = mImageView;
          
         if (index == 0) {  
-            //Ĭ��ѡ�е�һ��ͼƬ
             mImageViews[index].setBackgroundResource(R.drawable.dot_selected);  
         } else {  
             mImageViews[index].setBackgroundResource(R.drawable.dot_none);  
